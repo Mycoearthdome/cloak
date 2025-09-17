@@ -33,6 +33,12 @@ struct CountryNets {
 enum ListChoice {
     Brics,
     Nato,
+    Eu,
+    Asean,
+    G7,
+    G20,
+    Opec,
+    Africa
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum, Debug)]
@@ -47,6 +53,12 @@ impl fmt::Display for ListChoice {
         match self {
             ListChoice::Brics => write!(f, "brics"),
             ListChoice::Nato => write!(f, "nato"),
+            ListChoice::Eu => write!(f, "eu"),
+            ListChoice::Asean => write!(f, "asean"),
+            ListChoice::G7 => write!(f, "g7"),
+            ListChoice::G20 => write!(f, "g20"),
+            ListChoice::Opec => write!(f, "opec"),
+            ListChoice::Africa => write!(f, "african_union")
         }
     }
 }
@@ -77,11 +89,11 @@ async fn main() -> Result<()> {
     let args = Args::parse();
 
     let brics = [
-        ("br", "Brazil"),
-        ("ru", "Russia"),
-        ("in", "India"),
-        ("cn", "China"),
-        ("za", "South Africa"),
+    ("br", "Brazil"),
+    ("ru", "Russia"),
+    ("in", "India"),
+    ("cn", "China"),
+    ("za", "South Africa"),
     ];
 
     let nato = [
@@ -118,9 +130,165 @@ async fn main() -> Result<()> {
         ("us", "United States"),
     ];
 
+    let eu = [
+        ("at", "Austria"),
+        ("be", "Belgium"),
+        ("bg", "Bulgaria"),
+        ("hr", "Croatia"),
+        ("cy", "Cyprus"),
+        ("cz", "Czechia"),
+        ("dk", "Denmark"),
+        ("ee", "Estonia"),
+        ("fi", "Finland"),
+        ("fr", "France"),
+        ("de", "Germany"),
+        ("gr", "Greece"),
+        ("hu", "Hungary"),
+        ("ie", "Ireland"),
+        ("it", "Italy"),
+        ("lv", "Latvia"),
+        ("lt", "Lithuania"),
+        ("lu", "Luxembourg"),
+        ("mt", "Malta"),
+        ("nl", "Netherlands"),
+        ("pl", "Poland"),
+        ("pt", "Portugal"),
+        ("ro", "Romania"),
+        ("sk", "Slovakia"),
+        ("si", "Slovenia"),
+        ("es", "Spain"),
+        ("se", "Sweden"),
+    ];
+
+    let asean = [
+        ("id", "Indonesia"),
+        ("my", "Malaysia"),
+        ("ph", "Philippines"),
+        ("sg", "Singapore"),
+        ("th", "Thailand"),
+        ("vn", "Vietnam"),
+        ("mm", "Myanmar"),
+        ("kh", "Cambodia"),
+        ("la", "Laos"),
+        ("bn", "Brunei"),
+    ];
+
+    let g7 = [
+        ("ca", "Canada"),
+        ("fr", "France"),
+        ("de", "Germany"),
+        ("it", "Italy"),
+        ("jp", "Japan"),
+        ("gb", "United Kingdom"),
+        ("us", "United States"),
+    ];
+
+    let g20 = [
+        ("ar", "Argentina"),
+        ("au", "Australia"),
+        ("br", "Brazil"),
+        ("ca", "Canada"),
+        ("cn", "China"),
+        ("fr", "France"),
+        ("de", "Germany"),
+        ("in", "India"),
+        ("id", "Indonesia"),
+        ("it", "Italy"),
+        ("jp", "Japan"),
+        ("mx", "Mexico"),
+        ("ru", "Russia"),
+        ("sa", "Saudi Arabia"),
+        ("za", "South Africa"),
+        ("kr", "South Korea"),
+        ("tr", "Türkiye"),
+        ("gb", "United Kingdom"),
+        ("us", "United States"),
+        ("eu", "European Union"),
+    ];
+
+    let opec = [
+        ("dz", "Algeria"),
+        ("ao", "Angola"),
+        ("cd", "Congo"),
+        ("gq", "Equatorial Guinea"),
+        ("ga", "Gabon"),
+        ("iq", "Iraq"),
+        ("kw", "Kuwait"),
+        ("ly", "Libya"),
+        ("ng", "Nigeria"),
+        ("sa", "Saudi Arabia"),
+        ("ae", "United Arab Emirates"),
+        ("ve", "Venezuela"),
+    ];
+
+    let african_union = [
+        ("dz", "Algeria"),
+        ("ao", "Angola"),
+        ("bj", "Benin"),
+        ("bw", "Botswana"),
+        ("bf", "Burkina Faso"),
+        ("bi", "Burundi"),
+        ("cm", "Cameroon"),
+        ("cv", "Cape Verde"),
+        ("cf", "Central African Republic"),
+        ("td", "Chad"),
+        ("km", "Comoros"),
+        ("cg", "Congo"),
+        ("cd", "Democratic Republic of the Congo"),
+        ("ci", "Côte d'Ivoire"),
+        ("dj", "Djibouti"),
+        ("eg", "Egypt"),
+        ("gq", "Equatorial Guinea"),
+        ("er", "Eritrea"),
+        ("sz", "Eswatini"),
+        ("et", "Ethiopia"),
+        ("ga", "Gabon"),
+        ("gm", "Gambia"),
+        ("gh", "Ghana"),
+        ("gn", "Guinea"),
+        ("gw", "Guinea-Bissau"),
+        ("ke", "Kenya"),
+        ("ls", "Lesotho"),
+        ("lr", "Liberia"),
+        ("ly", "Libya"),
+        ("mg", "Madagascar"),
+        ("mw", "Malawi"),
+        ("ml", "Mali"),
+        ("mr", "Mauritania"),
+        ("mu", "Mauritius"),
+        ("ma", "Morocco"),
+        ("mz", "Mozambique"),
+        ("na", "Namibia"),
+        ("ne", "Niger"),
+        ("ng", "Nigeria"),
+        ("rw", "Rwanda"),
+        ("st", "São Tomé and Príncipe"),
+        ("sn", "Senegal"),
+        ("sc", "Seychelles"),
+        ("sl", "Sierra Leone"),
+        ("so", "Somalia"),
+        ("za", "South Africa"),
+        ("ss", "South Sudan"),
+        ("sd", "Sudan"),
+        ("tz", "Tanzania"),
+        ("tg", "Togo"),
+        ("tn", "Tunisia"),
+        ("ug", "Uganda"),
+        ("zm", "Zambia"),
+        ("zw", "Zimbabwe"),
+    ];
+
+
     let countries: &[(&str, &str)] = match args.list {
         ListChoice::Brics => &brics,
         ListChoice::Nato => &nato,
+        ListChoice::Eu => &eu,
+        ListChoice::Asean => &asean,
+        ListChoice::G7 => &g7,
+        ListChoice::G20 => &g20,
+        ListChoice::Opec => &opec,
+        ListChoice::Africa => &african_union,
+
     };
 
     let mut map: HashMap<String, CountryNets> = HashMap::new();
